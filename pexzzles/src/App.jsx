@@ -5,6 +5,7 @@ import NameForm from "./components/welcome/NameForm";
 import DifficultyPicker from "./components/welcome/DifficultyPicker";
 import ImageSearch from "./components/search/ImageSearch";
 import ConfirmModal from "./components/common/ConfirmModal";
+import PuzzleBoard from "./components/game/PuzzleBoard";
 
 function Flow() {
   const { name, settings } = useApp();
@@ -19,9 +20,13 @@ function Flow() {
 
   function startGame() {
     setConfirmOpen(false);
-    alert(
-      "Great! In the next step we’ll add the puzzle board. For now, selection works."
-    );
+    setStep("game");
+  }
+
+  function startNewGame() {
+    // after win or user request → back to difficulty or search directly
+    setChosenImage(null);
+    setStep("difficulty");
   }
 
   return (
@@ -35,6 +40,14 @@ function Flow() {
       )}
 
       {step === "search" && <ImageSearch onSelect={handleSelect} />}
+
+      {step === "game" && chosenImage && (
+        <PuzzleBoard
+          image={chosenImage}
+          grid={settings.grid}
+          onNewGame={startNewGame}
+        />
+      )}
 
       <ConfirmModal
         open={confirmOpen}
