@@ -13,6 +13,7 @@ import { FaTrophy } from "react-icons/fa";
 
 function Flow() {
   const { name, settings } = useApp();
+
   const [step, setStep] = useState(name ? "mode" : "name");
   const [chosenImage, setChosenImage] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -54,17 +55,22 @@ function Flow() {
     setStep("mode");
   }
 
+  const headerLayout =
+    step === "mode" || step === "name" ? "centered" : "default";
+
   return (
     <>
-      <Header />
+      <Header layout={headerLayout} />
 
       {step === "name" && <NameForm onNext={() => setStep("mode")} />}
 
       {step === "mode" && (
-        <ModePicker
-          onDaily={() => setStep("daily")}
-          onCustom={() => setStep("difficulty")}
-        />
+        <div className="home-card-wrap">
+          <ModePicker
+            onDaily={() => setStep("daily")}
+            onCustom={() => setStep("difficulty")}
+          />
+        </div>
       )}
 
       {step === "daily" && (

@@ -16,9 +16,9 @@ body,
 }
 
 .btn-big {
-  font-size: 18px;
-  padding: 12px 20px;
-  border-radius: var(--radius);
+  font-size: clamp(14px, 1.6vw, 18px);
+  padding: 12px 18px;
+  border-radius: 12px;
 }
 
 .logo {
@@ -74,12 +74,6 @@ body,
   font-size: clamp(14px, 1.6vw, 18px);
 }
 
-.btn-big {
-  padding: 12px 18px;
-  font-size: clamp(14px, 1.6vw, 18px);
-  border-radius: 12px;
-}
-
 .mode-actions {
   display: flex;
   gap: 12px;
@@ -97,11 +91,29 @@ body,
   font-size: 14px;
 }
 
-@media (max-width: 400px) {
-  .fab-scoreboard {
-    top: 12px;
-    right: 12px;
-  }
+.header-centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.header-centered .brand {
+  margin-bottom: 24px;
+}
+
+.header-centered .greeting-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.home-card-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 0 16px 32px;
 }
 
 @media (max-width: 480px) {
