@@ -1,0 +1,13 @@
+:root {
+  --brand: #eb8316;
+  --ink: #000000;
+  --paper: #f7f7f7;
+  --tile: #ffffff;
+  --ok: #2e7d32;
+  --warn: #d32f2f;
+  --border: #e5e5e5;
+  --radius: 16px;
+  --gap: 16px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --font: "Nunito Sans", -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
