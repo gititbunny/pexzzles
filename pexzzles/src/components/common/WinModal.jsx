@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import Confetti from "react-confetti";
 import { FaTimes, FaSave, FaRedo } from "react-icons/fa";
 
 function fmtTime(seconds) {
@@ -28,9 +29,22 @@ export default function WinModal({
   moves,
   hintsUsed,
   onSave,
+  onClose,
   onNew,
 }) {
   const [toast, setToast] = useState(false);
+  const [dims, setDims] = useState({
+    w: window.innerWidth,
+    h: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function onResize() {
+      setDims({ w: window.innerWidth, h: window.innerHeight });
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     if (toast) {
@@ -40,6 +54,11 @@ export default function WinModal({
   }, [toast]);
 
   if (!open) return null;
+
+  function handleSave() {
+    onSave();
+    setToast(true);
+  }
 
   const overlay = {
     position: "fixed",
@@ -53,7 +72,7 @@ export default function WinModal({
   const modal = {
     background: "#fff",
     borderRadius: "16px",
-    maxWidth: "480px",
+    maxWidth: "520px",
     width: "100%",
     padding: "24px",
     position: "relative",
@@ -69,27 +88,30 @@ export default function WinModal({
     cursor: "pointer",
   };
 
-  function handleSave() {
-    onSave();
-    setToast(true);
-  }
+  const timeStr = fmtTime(seconds);
 
   return createPortal(
     <>
+      <Confetti
+        width={dims.w}
+        height={dims.h}
+        numberOfPieces={220}
+        recycle={false}
+      />
       <div style={overlay} role="dialog" aria-modal="true">
         <div style={modal}>
-          <button style={closeBtn} onClick={onNew} aria-label="Close">
+          <button style={closeBtn} onClick={onClose} aria-label="Close">
             <FaTimes />
           </button>
 
           <h3 className="mb-3">Puzzle Solved 🎉</h3>
           <p style={{ whiteSpace: "pre-line" }}>
-            {randomCongrats(name, fmtTime(seconds))}
+            {randomCongrats(name, timeStr)}
           </p>
 
           <ul className="list-unstyled text-soft" style={{ fontSize: 14 }}>
             <li>
-              ⏱️ Time: <strong>{fmtTime(seconds)}</strong>
+              ⏱️ Time: <strong>{timeStr}</strong>
             </li>
             <li>
               🧩 Grid:{" "}
