@@ -172,7 +172,6 @@ export default function PuzzleBoard({ image, grid, onNewGame }) {
         open={hintOpen}
         image={image}
         grid={grid}
-        onStart={() => {}}
         onCancel={() => setHintOpen(false)}
       />
 
