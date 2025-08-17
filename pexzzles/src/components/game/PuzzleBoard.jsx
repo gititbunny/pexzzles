@@ -7,7 +7,34 @@ import HintModal from "../common/HintModal";
 import WinModal from "../common/WinModal";
 import { useApp } from "../../context/AppContext";
 
-function shuffle(arr) {
+function mulberry32(a) {
+  return function () {
+    let t = (a += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function hashSeed(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+  }
+  return h >>> 0;
+}
+
+function shuffleWithRng(arr, rng) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function shuffleRandom(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -16,7 +43,13 @@ function shuffle(arr) {
   return a;
 }
 
-export default function PuzzleBoard({ image, grid, onNewGame }) {
+export default function PuzzleBoard({
+  image,
+  grid,
+  onNewGame,
+  shuffleSeed = null,
+  dailySeed = null,
+}) {
   const total = grid * grid;
   const indexes = useMemo(
     () => Array.from({ length: total }, (_, i) => i),
@@ -24,7 +57,7 @@ export default function PuzzleBoard({ image, grid, onNewGame }) {
   );
   const { name, scoreboard, setScoreboard } = useApp();
 
-  const [order, setOrder] = useState(() => shuffle(indexes));
+  const [order, setOrder] = useState(() => shuffleRandom(indexes));
   const [selected, setSelected] = useState(null);
   const [hintsLeft, setHintsLeft] = useState(3);
   const [hintOpen, setHintOpen] = useState(false);
@@ -39,13 +72,21 @@ export default function PuzzleBoard({ image, grid, onNewGame }) {
   const { seconds, startTimer, stopTimer, resetTimer } = useTimer(true);
 
   useEffect(() => {
-    setOrder(shuffle(indexes));
+    let newOrder;
+    if (shuffleSeed) {
+      const seedInt = hashSeed(`${shuffleSeed}:${image?.id || ""}:${grid}`);
+      const rng = mulberry32(seedInt);
+      newOrder = shuffleWithRng(indexes, rng);
+    } else {
+      newOrder = shuffleRandom(indexes);
+    }
+    setOrder(newOrder);
     setSelected(null);
     setHintsLeft(3);
     setMoves(0);
     resetTimer();
     startTimer();
-  }, [image?.id, grid]);
+  }, [image?.id, grid, shuffleSeed]);
 
   useEffect(() => {
     if (correct === total) {
@@ -111,6 +152,7 @@ export default function PuzzleBoard({ image, grid, onNewGame }) {
         0,
         grid * grid * 100 - seconds * 2 - moves * 1 - (3 - hintsLeft) * 50
       ),
+      dailySeed: dailySeed || null,
     };
     setScoreboard([run, ...scoreboard]);
     setWinOpen(false);
@@ -166,6 +208,12 @@ export default function PuzzleBoard({ image, grid, onNewGame }) {
         <a href="https://unsplash.com" target="_blank" rel="noreferrer">
           Unsplash
         </a>
+        {dailySeed ? (
+          <>
+            {" "}
+            • Daily Challenge: <strong>{dailySeed}</strong>
+          </>
+        ) : null}
       </div>
 
       <HintModal
