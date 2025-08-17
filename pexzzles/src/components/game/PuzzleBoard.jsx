@@ -43,6 +43,21 @@ function shuffleRandom(arr) {
   return a;
 }
 
+function makeStartOrder(indexes, rng) {
+  const total = indexes.length;
+  const minMisplaced = Math.min(total, Math.max(3, Math.ceil(total * 0.75)));
+  let attempts = 0;
+  while (attempts < 500) {
+    const candidate = rng
+      ? shuffleWithRng(indexes, rng)
+      : shuffleRandom(indexes);
+    const misplaced = candidate.reduce((acc, v, i) => acc + (v !== i), 0);
+    if (misplaced >= minMisplaced) return candidate;
+    attempts++;
+  }
+  return [...indexes.slice(1), indexes[0]];
+}
+
 export default function PuzzleBoard({
   image,
   grid,
@@ -76,9 +91,9 @@ export default function PuzzleBoard({
     if (shuffleSeed) {
       const seedInt = hashSeed(`${shuffleSeed}:${image?.id || ""}:${grid}`);
       const rng = mulberry32(seedInt);
-      newOrder = shuffleWithRng(indexes, rng);
+      newOrder = makeStartOrder(indexes, rng);
     } else {
-      newOrder = shuffleRandom(indexes);
+      newOrder = makeStartOrder(indexes);
     }
     setOrder(newOrder);
     setSelected(null);
