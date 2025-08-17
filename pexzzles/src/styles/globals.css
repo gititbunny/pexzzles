@@ -44,3 +44,10 @@ body,
 .grid-gap {
   gap: 16px;
 }
+
+@media (max-width: 480px) {
+  .fab-scoreboard {
+    top: 12px;
+    right: 12px;
+  }
+}
