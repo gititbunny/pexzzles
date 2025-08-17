@@ -6,6 +6,7 @@ import useTimer from "../../hooks/useTimer";
 import HintModal from "../common/HintModal";
 import WinModal from "../common/WinModal";
 import { useApp } from "../../context/AppContext";
+import { FaRedo, FaSave } from "react-icons/fa";
 
 function mulberry32(a) {
   return function () {
@@ -15,7 +16,6 @@ function mulberry32(a) {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
-
 function hashSeed(str) {
   let h = 2166136261;
   for (let i = 0; i < str.length; i++) {
@@ -24,7 +24,6 @@ function hashSeed(str) {
   }
   return h >>> 0;
 }
-
 function shuffleWithRng(arr, rng) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -33,7 +32,6 @@ function shuffleWithRng(arr, rng) {
   }
   return a;
 }
-
 function shuffleRandom(arr) {
   const a = arr.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -42,7 +40,6 @@ function shuffleRandom(arr) {
   }
   return a;
 }
-
 function makeStartOrder(indexes, rng) {
   const total = indexes.length;
   const minMisplaced = Math.min(total, Math.max(3, Math.ceil(total * 0.75)));
@@ -78,6 +75,8 @@ export default function PuzzleBoard({
   const [hintOpen, setHintOpen] = useState(false);
   const [moves, setMoves] = useState(0);
   const [winOpen, setWinOpen] = useState(false);
+  const [isSolved, setIsSolved] = useState(false);
+  const [savedToast, setSavedToast] = useState(false);
 
   const correct = useMemo(
     () => order.reduce((sum, idx, i) => sum + (idx === i ? 1 : 0), 0),
@@ -99,6 +98,7 @@ export default function PuzzleBoard({
     setSelected(null);
     setHintsLeft(3);
     setMoves(0);
+    setIsSolved(false);
     resetTimer();
     startTimer();
   }, [image?.id, grid, shuffleSeed]);
@@ -106,6 +106,7 @@ export default function PuzzleBoard({
   useEffect(() => {
     if (correct === total) {
       stopTimer();
+      setIsSolved(true);
       setTimeout(() => setWinOpen(true), 150);
     }
   }, [correct, total]);
@@ -170,6 +171,8 @@ export default function PuzzleBoard({
       dailySeed: dailySeed || null,
     };
     setScoreboard([run, ...scoreboard]);
+    setSavedToast(true);
+    setTimeout(() => setSavedToast(false), 2000);
   }
 
   function onCloseWin() {
@@ -251,6 +254,44 @@ export default function PuzzleBoard({
         onClose={onCloseWin}
         onNew={onStartNew}
       />
+
+      {isSolved && !winOpen && (
+        <div
+          style={{
+            position: "fixed",
+            right: 16,
+            bottom: 16,
+            display: "flex",
+            gap: 8,
+            zIndex: 1040,
+          }}
+        >
+          <button className="btn btn-outline-dark" onClick={onSave}>
+            <FaSave className="me-1" /> Save Game
+          </button>
+          <button className="btn btn-dark" onClick={onStartNew}>
+            <FaRedo className="me-1" /> Start New Game
+          </button>
+        </div>
+      )}
+
+      {savedToast && !winOpen && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 72,
+            right: 16,
+            background: "#222",
+            color: "#fff",
+            padding: "10px 14px",
+            borderRadius: 8,
+            boxShadow: "var(--shadow)",
+            zIndex: 1040,
+          }}
+        >
+          ✅ Game Saved!
+        </div>
+      )}
     </div>
   );
 }
