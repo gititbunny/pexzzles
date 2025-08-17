@@ -6,12 +6,15 @@ import DifficultyPicker from "./components/welcome/DifficultyPicker";
 import ImageSearch from "./components/search/ImageSearch";
 import ConfirmModal from "./components/common/ConfirmModal";
 import PuzzleBoard from "./components/game/PuzzleBoard";
+import ScoreboardDrawer from "./components/common/ScoreboardDrawer";
+import { FaTrophy } from "react-icons/fa";
 
 function Flow() {
   const { name, settings } = useApp();
   const [step, setStep] = useState(name ? "difficulty" : "name");
   const [chosenImage, setChosenImage] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [scoresOpen, setScoresOpen] = useState(false);
 
   useEffect(() => {
     if (!name) {
@@ -62,6 +65,20 @@ function Flow() {
         grid={settings.grid}
         onStart={startGame}
         onCancel={() => setConfirmOpen(false)}
+      />
+
+      <button
+        className="btn btn-dark fab-scoreboard d-flex align-items-center"
+        onClick={() => setScoresOpen(true)}
+        title="Open scoreboard"
+        aria-label="Open scoreboard"
+      >
+        <FaTrophy className="me-2" /> Scores
+      </button>
+
+      <ScoreboardDrawer
+        open={scoresOpen}
+        onClose={() => setScoresOpen(false)}
       />
     </>
   );
