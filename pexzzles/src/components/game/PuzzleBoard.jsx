@@ -155,8 +155,10 @@ export default function PuzzleBoard({
       dailySeed: dailySeed || null,
     };
     setScoreboard([run, ...scoreboard]);
+  }
+
+  function onCloseWin() {
     setWinOpen(false);
-    onNewGame();
   }
 
   function onStartNew() {
@@ -231,6 +233,7 @@ export default function PuzzleBoard({
         moves={moves}
         hintsUsed={3 - hintsLeft}
         onSave={onSave}
+        onClose={onCloseWin}
         onNew={onStartNew}
       />
     </div>
