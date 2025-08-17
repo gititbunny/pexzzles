@@ -2,30 +2,43 @@ import React, { useEffect, useState } from "react";
 import { AppProvider, useApp } from "./context/AppContext";
 import Header from "./components/common/Header";
 import NameForm from "./components/welcome/NameForm";
+import ModePicker from "./components/welcome/ModePicker";
 import DifficultyPicker from "./components/welcome/DifficultyPicker";
 import ImageSearch from "./components/search/ImageSearch";
 import ConfirmModal from "./components/common/ConfirmModal";
 import PuzzleBoard from "./components/game/PuzzleBoard";
 import ScoreboardDrawer from "./components/common/ScoreboardDrawer";
+import DailyChallenge from "./components/daily/DailyChallenge";
 import { FaTrophy } from "react-icons/fa";
 
 function Flow() {
   const { name, settings } = useApp();
-  const [step, setStep] = useState(name ? "difficulty" : "name");
+  const [step, setStep] = useState(name ? "mode" : "name");
   const [chosenImage, setChosenImage] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [scoresOpen, setScoresOpen] = useState(false);
+  const [shuffleSeed, setShuffleSeed] = useState(null);
+  const [dailySeed, setDailySeed] = useState(null);
 
   useEffect(() => {
     if (!name) {
       setChosenImage(null);
       setConfirmOpen(false);
+      setShuffleSeed(null);
+      setDailySeed(null);
       setStep("name");
     }
   }, [name]);
 
-  function handleSelect(img) {
+  function handleSelect(img, maybeSeed = null) {
     setChosenImage(img);
+    if (maybeSeed) {
+      setShuffleSeed(maybeSeed);
+      setDailySeed(maybeSeed);
+    } else {
+      setShuffleSeed(null);
+      setDailySeed(null);
+    }
     setConfirmOpen(true);
   }
 
@@ -36,14 +49,31 @@ function Flow() {
 
   function startNewGame() {
     setChosenImage(null);
-    setStep("difficulty");
+    setShuffleSeed(null);
+    setDailySeed(null);
+    setStep("mode");
   }
 
   return (
     <>
       <Header />
 
-      {step === "name" && <NameForm onNext={() => setStep("difficulty")} />}
+      {step === "name" && <NameForm onNext={() => setStep("mode")} />}
+
+      {step === "mode" && (
+        <ModePicker
+          onDaily={() => setStep("daily")}
+          onCustom={() => setStep("difficulty")}
+        />
+      )}
+
+      {step === "daily" && (
+        <DailyChallenge
+          grid={settings.grid}
+          onSelect={handleSelect}
+          onBack={() => setStep("mode")}
+        />
+      )}
 
       {step === "difficulty" && (
         <DifficultyPicker onPick={() => setStep("search")} />
@@ -55,6 +85,8 @@ function Flow() {
         <PuzzleBoard
           image={chosenImage}
           grid={settings.grid}
+          shuffleSeed={shuffleSeed}
+          dailySeed={dailySeed}
           onNewGame={startNewGame}
         />
       )}

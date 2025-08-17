@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { useApp } from "../../context/AppContext";
-import { FaTrophy, FaTimes, FaTrash } from "react-icons/fa";
+import { FaTrophy, FaTimes, FaTrash, FaCalendarDay } from "react-icons/fa";
 
 function fmtTime(seconds) {
   const m = Math.floor(seconds / 60)
@@ -14,12 +14,19 @@ function fmtTime(seconds) {
 export default function ScoreboardDrawer({ open, onClose }) {
   const { scoreboard, setScoreboard } = useApp();
   const [gridFilter, setGridFilter] = useState("all");
+  const [dailyOnly, setDailyOnly] = useState(false);
 
   const filtered = useMemo(() => {
-    if (gridFilter === "all") return scoreboard;
-    const g = Number(gridFilter);
-    return scoreboard.filter((run) => run.grid === g);
-  }, [scoreboard, gridFilter]);
+    let runs = scoreboard;
+    if (gridFilter !== "all") {
+      const g = Number(gridFilter);
+      runs = runs.filter((run) => run.grid === g);
+    }
+    if (dailyOnly) {
+      runs = runs.filter((run) => !!run.dailySeed);
+    }
+    return runs;
+  }, [scoreboard, gridFilter, dailyOnly]);
 
   function clearAll() {
     if (!scoreboard.length) return;
@@ -93,7 +100,7 @@ export default function ScoreboardDrawer({ open, onClose }) {
         </div>
 
         <div className="px-3 pt-3">
-          <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div className="d-flex align-items-center gap-2">
               <label htmlFor="gridFilter" className="form-label mb-0 me-2">
                 Filter:
@@ -112,8 +119,22 @@ export default function ScoreboardDrawer({ open, onClose }) {
                 <option value="8">8×8</option>
               </select>
             </div>
+
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id="dailyOnly"
+                checked={dailyOnly}
+                onChange={(e) => setDailyOnly(e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="dailyOnly">
+                Daily only
+              </label>
+            </div>
+
             <button
-              className="btn btn-sm btn-outline-danger"
+              className="btn btn-sm btn-outline-danger ms-auto"
               onClick={clearAll}
               disabled={!scoreboard.length}
             >
@@ -150,10 +171,20 @@ export default function ScoreboardDrawer({ open, onClose }) {
                       />
                     </div>
                     <div className="flex-grow-1 p-2">
-                      <div className="d-flex align-items-center justify-content-between">
-                        <strong>
-                          {fmtTime(run.timeSeconds)} • {run.grid}×{run.grid}
-                        </strong>
+                      <div className="d-flex align-items-center justify-content-between flex-wrap">
+                        <div>
+                          <strong>
+                            {fmtTime(run.timeSeconds)} • {run.grid}×{run.grid}
+                          </strong>{" "}
+                          {run.dailySeed ? (
+                            <span
+                              className="badge text-bg-warning ms-1"
+                              title="Daily Challenge"
+                            >
+                              <FaCalendarDay className="me-1" /> {run.dailySeed}
+                            </span>
+                          ) : null}
+                        </div>
                         <button
                           className="btn btn-sm btn-outline-danger"
                           onClick={() => deleteOne(run.id)}
