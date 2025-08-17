@@ -1,0 +1,46 @@
+@import url("./variables.css");
+
+html,
+body,
+#root {
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+.container-narrow {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.btn-big {
+  font-size: 18px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+}
+
+.logo {
+  height: 48px;
+}
+
+.fab-scoreboard {
+  position: fixed;
+  right: 16px;
+  top: 16px;
+  z-index: 1050;
+}
+
+.square {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.text-soft {
+  opacity: 0.85;
+}
+
+.grid-gap {
+  gap: 16px;
+}
