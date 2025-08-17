@@ -18,12 +18,12 @@ export function AppProvider({ children }) {
     try {
       return (
         JSON.parse(localStorage.getItem(LS_SETTINGS)) || {
-          grid: 4,
+          grid: 2,
           lastKeyword: "",
         }
       );
     } catch {
-      return { grid: 4, lastKeyword: "" };
+      return { grid: 2, lastKeyword: "" };
     }
   });
   const [scoreboard, setScoreboard] = useState(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppProvider, useApp } from "./context/AppContext";
 import Header from "./components/common/Header";
 import NameForm from "./components/welcome/NameForm";
@@ -13,6 +13,14 @@ function Flow() {
   const [chosenImage, setChosenImage] = useState(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
+  useEffect(() => {
+    if (!name) {
+      setChosenImage(null);
+      setConfirmOpen(false);
+      setStep("name");
+    }
+  }, [name]);
+
   function handleSelect(img) {
     setChosenImage(img);
     setConfirmOpen(true);
@@ -24,7 +32,6 @@ function Flow() {
   }
 
   function startNewGame() {
-    // after win or user request → back to difficulty or search directly
     setChosenImage(null);
     setStep("difficulty");
   }

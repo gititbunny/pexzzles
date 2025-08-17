@@ -3,6 +3,7 @@ import { useApp } from "../../context/AppContext";
 
 export default function DifficultyPicker({ onPick }) {
   const { settings, setSettings } = useApp();
+  const options = [2, 4, 6, 8];
 
   function pick(grid) {
     setSettings({ ...settings, grid });
@@ -13,24 +14,26 @@ export default function DifficultyPicker({ onPick }) {
     <div className="container-narrow">
       <h2 className="mb-3">Choose Difficulty</h2>
       <p className="text-soft">
-        Pick a grid size that feels good. You can always try a harder one later.
+        Pick a grid size (rows × columns). 2×2 is the easiest.
       </p>
-      <div className="d-flex grid-gap mt-3">
-        <button className="btn btn-dark btn-big" onClick={() => pick(4)}>
-          4 × 4
-        </button>
-        <button
-          className="btn btn-outline-dark btn-big"
-          onClick={() => pick(6)}
-        >
-          6 × 6
-        </button>
-        <button
-          className="btn btn-outline-dark btn-big"
-          onClick={() => pick(8)}
-        >
-          8 × 8
-        </button>
+
+      <div className="d-flex grid-gap mt-3 flex-wrap">
+        {options.map((g) => {
+          const isActive = settings.grid === g;
+          const cls = isActive
+            ? "btn btn-dark btn-big"
+            : "btn btn-outline-dark btn-big";
+          return (
+            <button
+              key={g}
+              className={cls}
+              onClick={() => pick(g)}
+              aria-pressed={isActive}
+            >
+              {g} × {g}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
