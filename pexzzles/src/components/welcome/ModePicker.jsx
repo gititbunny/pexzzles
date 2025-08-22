@@ -19,7 +19,7 @@ export default function ModePicker({ onDaily, onCustom }) {
 
       <div className="mode-note">
         The Daily Challenge gives everyone the same image and tile layout for
-        today—great for comparing times with friends and family.
+        today, great for comparing times with friends and family.
       </div>
     </div>
   );
