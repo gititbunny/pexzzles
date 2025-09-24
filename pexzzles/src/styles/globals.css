@@ -22,7 +22,8 @@ body,
 }
 
 .logo {
-  height: 48px;
+  width: 88px;
+  height: 88px;
 }
 
 .fab-scoreboard {
