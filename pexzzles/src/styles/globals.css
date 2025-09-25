@@ -18,7 +18,7 @@ body,
 .btn-big {
   font-size: clamp(14px, 1.6vw, 18px);
   padding: 12px 18px;
-  border-radius: 12px;
+  border-radius: 32px;
 }
 
 .logo {
