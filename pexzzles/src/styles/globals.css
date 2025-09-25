@@ -36,6 +36,7 @@ body,
   right: 16px;
   top: 16px;
   z-index: 1050;
+  border-radius: 24px;
 }
 
 .square {
