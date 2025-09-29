@@ -9,10 +9,13 @@ export default function ModePicker({ onDaily, onCustom }) {
       </p>
 
       <div className="mode-actions mt-2 mb-2">
-        <button className="btn btn-dark btn-big" onClick={onDaily}>
+        <button className="btn btn-dark btn-big daily" onClick={onDaily}>
           Daily Challenge
         </button>
-        <button className="btn btn-outline-dark btn-big" onClick={onCustom}>
+        <button
+          className="btn btn-outline-dark btn-big custom"
+          onClick={onCustom}
+        >
           Custom Puzzle
         </button>
       </div>
