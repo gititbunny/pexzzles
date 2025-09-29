@@ -67,7 +67,8 @@ export default function ImageSearch({ onSelect }) {
     <div className="container-narrow">
       <h2 className="mb-3">Search for a Photo</h2>
       <p className="text-soft">
-        We’ll keep everything square so it’s easy to see and play.
+        Enter any keyword and click search (e.g. "nature", "flowers", "city",
+        etc...).
       </p>
 
       <div className="input-group mb-3" style={{ maxWidth: "600px" }}>
