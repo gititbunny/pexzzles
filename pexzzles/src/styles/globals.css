@@ -4,7 +4,7 @@ html,
 body,
 #root {
   height: 100%;
-  background: #cdedb3;
+  background: #e8ffd6;
   color: var(--ink);
   font-family: var(--font);
 }
