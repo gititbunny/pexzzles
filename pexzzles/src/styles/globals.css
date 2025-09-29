@@ -63,7 +63,7 @@ body,
 .center-card {
   width: 100%;
   max-width: 760px;
-  background: var(--surface, #fff);
+  background: #cdedb3;
   border: 1px solid var(--border);
   border-radius: 16px;
   box-shadow: var(--shadow);
