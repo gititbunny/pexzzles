@@ -46,6 +46,8 @@ body,
 }
 
 .fab-scoreboard {
+  background: #ee5e07;
+  border: 2px solid #fcfd07;
   position: fixed;
   right: 16px;
   top: 16px;
