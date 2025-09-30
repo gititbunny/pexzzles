@@ -281,10 +281,10 @@ export default function PuzzleBoard({
             position: "fixed",
             bottom: 72,
             right: 16,
-            background: "#222",
-            color: "#fff",
+            background: "#c1ff31",
+            color: "#00704e",
             padding: "10px 14px",
-            borderRadius: 8,
+            borderRadius: 32,
             boxShadow: "var(--shadow)",
             zIndex: 1040,
           }}
