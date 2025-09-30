@@ -146,7 +146,7 @@ export default function WinModal({
             left: "50%",
             transform: "translateX(-50%)",
             background: "#c1ff31",
-            color: "#fff",
+            color: "#00704e",
             padding: "10px 20px",
             borderRadius: "32px",
             zIndex: 1100,
