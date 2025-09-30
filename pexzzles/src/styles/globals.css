@@ -29,6 +29,11 @@ body,
 
 .btn-dark{
   background: #ee5e07;
+
+}
+
+.btn{
+  border-radius: 32px;
 }
 
 .btn:hover{
