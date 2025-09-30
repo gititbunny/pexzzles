@@ -14,7 +14,7 @@ export default function DifficultyPicker({ onPick }) {
     <div className="container-narrow">
       <h2 className="mb-3">Choose Difficulty</h2>
       <p className="text-soft">
-        Pick a grid size (rows × columns). 2×2 is the easiest.
+        Pick a grid size (rows × columns). Start with 2×2 for an easy warm game.
       </p>
 
       <div className="d-flex grid-gap mt-3 flex-wrap">
