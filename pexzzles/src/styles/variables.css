@@ -1,11 +1,11 @@
 :root {
   --brand: #eb8316;
-  --ink: #00704eff;
+  --ink: #00704e;
   --paper: #e8ffd6;
-  --tile: #ffffff;
+  --tile: #e8ffd6;
   --ok: #2e7d32;
   --warn: #d40000;
-  --border: #e5e5e5;
+  --border: #fcfd07;
   --radius: 16px;
   --gap: 16px;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
