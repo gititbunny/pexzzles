@@ -13,7 +13,7 @@ function fmtTime(seconds) {
 
 function randomCongrats(name, time) {
   const msgs = [
-    `Puzzle Solved 🎉\nBrilliant work, ${name}! ${time} flat—keep that brain buff!`,
+    `Puzzle Solved 🎉\nBrilliant work, ${name}! ${time} flat, keep that brain buff!`,
     `Whooray ${name}!!! You solved this puzzle in ${time}. You are such a smarty pants!!!`,
     `👏 Well done, ${name}! Finished in ${time}. Your brain is on fire!`,
     `🎯 Amazing ${name}! You cracked it in ${time}. Keep up the sharp work!`,
