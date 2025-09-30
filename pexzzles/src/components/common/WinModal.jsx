@@ -83,6 +83,7 @@ export default function WinModal({
     top: "12px",
     right: "12px",
     background: "none",
+    color: "#d40000",
     border: "none",
     fontSize: "20px",
     cursor: "pointer",
