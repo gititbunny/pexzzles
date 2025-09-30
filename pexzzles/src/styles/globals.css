@@ -27,6 +27,9 @@ body,
   border: 2px solid #ee5e07;
 }
 
+.btn-dark{background: transparent;
+}
+
 .daily {
   background: #ee5e07;
   color: #e8ffd6;
