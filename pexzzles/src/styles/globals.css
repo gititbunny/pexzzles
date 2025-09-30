@@ -27,7 +27,14 @@ body,
   border: 2px solid #ee5e07;
 }
 
-.btn-dark{background: transparent;
+.btn-dark{
+  background: #ee5e07;
+}
+
+.btn:hover{
+  background: #c1ff31;
+  border: 2px solid #c1ff31;
+  color: #00704e;
 }
 
 .daily {
