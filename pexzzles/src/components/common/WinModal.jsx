@@ -145,10 +145,10 @@ export default function WinModal({
             bottom: "20px",
             left: "50%",
             transform: "translateX(-50%)",
-            background: "#222",
+            background: "#c1ff31",
             color: "#fff",
             padding: "10px 20px",
-            borderRadius: "8px",
+            borderRadius: "32px",
             zIndex: 1100,
             boxShadow: "var(--shadow)",
           }}
