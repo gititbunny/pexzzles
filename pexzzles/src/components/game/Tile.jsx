@@ -30,7 +30,7 @@ export default function Tile({
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      style={{ outline: selected ? "3px solid rgba(235,131,22,.7)" : "none" }}
+      style={{ outline: selected ? "3px solid rgba(238, 94, 7,.7)" : "none" }}
     >
       <div
         className="tile-inner"
