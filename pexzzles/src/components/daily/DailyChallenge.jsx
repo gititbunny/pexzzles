@@ -100,7 +100,7 @@ export default function DailyChallenge({ grid, onSelect, onBack }) {
                   backgroundPosition: "center",
                   borderRadius: "12px",
                   boxShadow: "var(--shadow)",
-                  border: "1px solid var(--border)",
+                  border: "2px solid var(--border)",
                 }}
               />
             </div>
